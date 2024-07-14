@@ -1,9 +1,37 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, PermissionsAndroid, Alert } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { hello, startLiveAudioProcessing } from '@/modules/native-audio';
+
+const requestAudioPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      {
+        title: 'Audio Recording Permission',
+        message: 'This app needs access to your microphone to record audio.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('Microphone permission granted');
+      startLiveAudioProcessing()
+    } else {
+      console.log('Microphone permission denied');
+      Alert.alert('Permission Denied', 'Microphone permission is required to record audio.');
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
+requestAudioPermission()
+
 
 export default function HomeScreen() {
   return (
@@ -16,7 +44,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Welcome! {hello()}</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
