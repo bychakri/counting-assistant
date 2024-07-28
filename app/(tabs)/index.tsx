@@ -4,7 +4,9 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import AudioEntry from '@/components/AudioEntry';
 import { hello, startLiveAudioProcessing } from '@/modules/native-audio';
+import EntriesManager from '@/components/EntriesManager';
 
 const requestAudioPermission = async () => {
   try {
@@ -30,7 +32,7 @@ const requestAudioPermission = async () => {
   }
 };
 
-requestAudioPermission()
+//requestAudioPermission()
 
 
 export default function HomeScreen() {
@@ -47,6 +49,8 @@ export default function HomeScreen() {
         <ThemedText type="title">Welcome! {hello()}</ThemedText>
         <HelloWave />
       </ThemedView>
+      <ThemedText>This app includes example code to help you get started.</ThemedText>
+      <EntriesManager />
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
